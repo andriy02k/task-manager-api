@@ -1,14 +1,22 @@
 import request from "supertest";
 import mongoose from "mongoose";
-import app from "./app.js";
-import User from "./models/users.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import app from "../app.js";
+import User from "../models/users.js";
 
 const API_URL = "/api/users";
 
 describe("Auth Endpoints", () => {
   beforeAll(async () => {
     // Підключення до тестової бази даних
-    await mongoose.connect(process.env.TEST_DB_URI);
+    if (mongoose.connection.readyState !== 0) {
+      await mongoose.disconnect();
+    }
+    await mongoose.connect(process.env.TEST_DB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
   });
 
   afterEach(async () => {
@@ -124,7 +132,7 @@ describe("Auth Endpoints", () => {
     it("should return 401 if user is not authenticated", async () => {
       const response = await request(app).get(`${API_URL}/logout`);
       expect(response.status).toBe(401);
-      expect(response.body).toEqual({ message: "Unauthorized" });
+      expect(response.body).toEqual({ message: "Not authorized" });
     });
   });
 });
