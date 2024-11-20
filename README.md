@@ -33,10 +33,12 @@ npm install
 
 Створіть файл .env у корені проекту. Ось приклад його вмісту:
 
+```.env
 DB_URI=your_db_uri
 JWT_SECRET=your_jwt_secret
+```
 
-MONGO_URI — URI для підключення до MongoDB. Якщо ви використовуєте MongoDB Atlas, отримаєте URI для підключення з вашого акаунту.
+MONGO_URI — URI для підключення до MongoDB. Якщо ви використовуєте MongoDB Atlas, отримаєте URI для підключення з вашого акаунту.  
 JWT_SECRET — секретний ключ для підпису токенів JWT. Змініть його на складний секрет.
 
 ### 4. Запуск сервера
@@ -51,11 +53,11 @@ npm start
 
 Приклад захищеного маршруту
 
-**Створення задачі:**
-`POST /api/tasks`
-**Заголовки:**
-`Authorization: Bearer your_jwt_token_here`
-`Content-Type: application/json`
+**Створення задачі:**  
+`POST /api/tasks`  
+**Заголовки:**  
+`Authorization: Bearer your_jwt_token_here`  
+`Content-Type: application/json`  
 **Тіло запиту:**
 
 ```json
