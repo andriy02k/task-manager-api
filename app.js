@@ -4,7 +4,11 @@ import morgan from "morgan";
 import cors from "cors";
 import "./db.js";
 import swaggerUi from "swagger-ui-express";
-import swaggerDocument from "./swagger.json" assert { type: "json" };
+import fs from "fs";
+const swaggerDocument = JSON.parse(
+  fs.readFileSync(new URL("./swagger.json", import.meta.url))
+);
+// import swaggerDocument from "./swagger.json" assert { type: "json" };
 
 import tasksRouter from "./routes/tasksRouter.js";
 import authRouter from "./routes/usersRouter.js";
