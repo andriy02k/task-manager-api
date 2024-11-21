@@ -183,15 +183,81 @@
             "bearerAuth": []
           }
         ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number for pagination (default is 1)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "example": 2
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of tasks per page (default is 10)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 10,
+              "example": 5
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Field to sort tasks by 'title'",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "title"
+            }
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "description": "Sort order: 'asc' for ascending, 'desc' for descending (default is 'asc')",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["asc", "desc"],
+              "default": "asc",
+              "example": "desc"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Tasks list",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Task"
+                  "type": "object",
+                  "properties": {
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Task"
+                      }
+                    },
+                    "totalTasks": {
+                      "type": "integer",
+                      "description": "Total number of tasks",
+                      "example": 13
+                    },
+                    "totalPages": {
+                      "type": "integer",
+                      "description": "Total number of pages",
+                      "example": 2
+                    },
+                    "currentPage": {
+                      "type": "integer",
+                      "description": "Current page number",
+                      "example": 2
+                    }
                   }
                 }
               }

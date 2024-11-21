@@ -4,12 +4,30 @@ import HttpError from "../helpers/HttpError.js";
 
 export const getAllTasks = async (req, res, next) => {
   try {
-    const tasksList = await Tasks.find({ owner: req.user.id });
-    res.send(tasksList);
+    const { page = 1, limit = 10, sort = "title", order = "asc" } = req.query;
+
+    const skip = (page - 1) * limit;
+    const sortOrder = order === "asc" ? 1 : -1;
+
+    const totalTasks = await Tasks.countDocuments({ owner: req.user.id });
+
+    const tasksList = await Tasks.find({ owner: req.user.id })
+      .skip(skip)
+      .limit(Number(limit))
+      .sort({ [sort]: sortOrder });
+
+    res.json({
+      tasks: tasksList,
+      totalTasks,
+      totalPages: Math.ceil(totalTasks / limit),
+      currentPage: page,
+      perPage: limit,
+    });
   } catch (error) {
     next(error);
   }
 };
+
 export const getOneTask = async (req, res, next) => {
   try {
     const { id } = req.params;
