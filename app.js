@@ -3,6 +3,8 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 import "./db.js";
+import swaggerUi from "swagger-ui-express";
+import swaggerDocument from "./swagger.json" assert { type: "json" };
 
 import tasksRouter from "./routes/tasksRouter.js";
 import authRouter from "./routes/usersRouter.js";
@@ -14,6 +16,7 @@ app.use(morgan("tiny"));
 app.use(cors());
 app.use(express.json());
 
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/api/users", authRouter);
 app.use("/api/tasks", auth, tasksRouter);
 
